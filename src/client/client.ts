@@ -26,6 +26,11 @@ const material = new THREE.MeshBasicMaterial({
 const cube = new THREE.Mesh(geometry, material)
 scene.add(cube)
 
+
+
+// Sub scene
+
+//event triggered on screen resize
 window.addEventListener('resize', onWindowResize, false)
 function onWindowResize() {
     camera.aspect = window.innerWidth / window.innerHeight
@@ -37,8 +42,8 @@ function onWindowResize() {
 function animate() {
     requestAnimationFrame(animate)
 
-    cube.rotation.x += 0.00
-    cube.rotation.y += 0.00
+    cube.rotation.x += 0.00 // To rotate in horizontal direction
+    cube.rotation.y += 0.00 // To rotate in vertical direction
 
     render()
 }
