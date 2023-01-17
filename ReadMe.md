@@ -13,3 +13,15 @@ Step 3 : Install `webpack` bundler in `dev` mode
 Step 4 : Install `typescript` package in `dev` mode
 
 ``npm install typescript --save-dev``
+
+
+
+For Dat GUI 
+
+We can install the Dat.GUI from its official repository.
+
+``npm install dat.gui --save-dev``
+
+We should also install the type definitions.
+
+``npm install @types/dat.gui --save-dev``
