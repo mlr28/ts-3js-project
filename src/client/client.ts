@@ -1,5 +1,7 @@
+
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+import Stats from 'three/examples/jsm/libs/stats.module'
 
 const scene = new THREE.Scene()
 
@@ -15,7 +17,8 @@ const renderer = new THREE.WebGLRenderer()
 renderer.setSize(window.innerWidth, window.innerHeight)
 document.body.appendChild(renderer.domElement)
 
-new OrbitControls(camera, renderer.domElement)
+const controls = new OrbitControls(camera, renderer.domElement)
+//controls.addEventListener('change', render)
 
 const geometry = new THREE.BoxGeometry()
 const material = new THREE.MeshBasicMaterial({
@@ -26,11 +29,6 @@ const material = new THREE.MeshBasicMaterial({
 const cube = new THREE.Mesh(geometry, material)
 scene.add(cube)
 
-
-
-// Sub scene
-
-//event triggered on screen resize
 window.addEventListener('resize', onWindowResize, false)
 function onWindowResize() {
     camera.aspect = window.innerWidth / window.innerHeight
@@ -39,13 +37,18 @@ function onWindowResize() {
     render()
 }
 
+const stats = Stats()
+document.body.appendChild(stats.dom)
+
 function animate() {
     requestAnimationFrame(animate)
 
-    cube.rotation.x += 0.00 // To rotate in horizontal direction
-    cube.rotation.y += 0.00 // To rotate in vertical direction
+    cube.rotation.x += 0.01
+    cube.rotation.y += 0.01
 
     render()
+
+    stats.update()
 }
 
 function render() {
@@ -53,3 +56,4 @@ function render() {
 }
 
 animate()
+//render()
