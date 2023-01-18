@@ -1,14 +1,13 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
-import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader'
-import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader'
+import { PLYLoader } from 'three/examples/jsm/loaders/PLYLoader'
 import Stats from 'three/examples/jsm/libs/stats.module'
 
 const scene = new THREE.Scene()
 scene.add(new THREE.AxesHelper(5))
 
-const light = new THREE.PointLight()
-light.position.set(2.5, 7.5, 15)
+const light = new THREE.SpotLight()
+light.position.set(20, 20, 20)
 scene.add(light)
 
 const camera = new THREE.PerspectiveCamera(
@@ -17,70 +16,52 @@ const camera = new THREE.PerspectiveCamera(
     0.1,
     1000
 )
-camera.position.z = 3
+camera.position.z = 40
 
 const renderer = new THREE.WebGLRenderer()
+renderer.outputEncoding = THREE.sRGBEncoding
 renderer.setSize(window.innerWidth, window.innerHeight)
 document.body.appendChild(renderer.domElement)
 
 const controls = new OrbitControls(camera, renderer.domElement)
 controls.enableDamping = true
 
-const mtlLoader = new MTLLoader()
-mtlLoader.load(
-    'models/monkey.mtl',
-    (materials) => {
-        materials.preload()
+const envTexture = new THREE.CubeTextureLoader().load([
+    'img/px_25.jpg',
+    'img/nx_25.jpg',
+    'img/py_25.jpg',
+    'img/ny_25.jpg',
+    'img/pz_25.jpg',
+    'img/nz_25.jpg',
+])
+envTexture.mapping = THREE.CubeReflectionMapping
 
-        const objLoader = new OBJLoader()
-        objLoader.setMaterials(materials)
-        objLoader.load(
-            'models/monkey.obj',
-            (object) => {
-                scene.add(object)
-            },
-            (xhr) => {
-                console.log((xhr.loaded / xhr.total) * 100 + '% loaded')
-            },
-            (error) => {
-                console.log('An error happened')
-            }
-        )
+const material = new THREE.MeshPhysicalMaterial({
+    color: 0xb2ffc8,
+    envMap: envTexture,
+    metalness: 0.25,
+    roughness: 0.1,
+    transparent: true,
+    transmission: 1.0,
+    side: THREE.DoubleSide,
+    clearcoat: 1.0,
+    clearcoatRoughness: 0.25,
+})
+
+const loader = new PLYLoader()
+loader.load(
+    'models/sean4.ply',
+    function (geometry) {
+        geometry.computeVertexNormals()
+        const mesh = new THREE.Mesh(geometry, material)
+        mesh.rotateX(-Math.PI / 2)
+        scene.add(mesh)
     },
     (xhr) => {
         console.log((xhr.loaded / xhr.total) * 100 + '% loaded')
     },
     (error) => {
-        console.log('An error happened')
-    }
-)
-
-mtlLoader.load(
-    'models/monkeyTextured.mtl',
-    (materials) => {
-        materials.preload()
-
-        const objLoader = new OBJLoader()
-        objLoader.setMaterials(materials)
-        objLoader.load(
-            'models/monkeyTextured.obj',
-            (object) => {
-                object.position.x = 2.5
-                scene.add(object)
-            },
-            (xhr) => {
-                console.log((xhr.loaded / xhr.total) * 100 + '% loaded')
-            },
-            (error) => {
-                console.log('An error happened')
-            }
-        )
-    },
-    (xhr) => {
-        console.log((xhr.loaded / xhr.total) * 100 + '% loaded')
-    },
-    (error) => {
-        console.log('An error happened')
+        console.log(error)
     }
 )
 
