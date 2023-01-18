@@ -3,30 +3,30 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Geometries</title>
+        <title>MLT Model Loader</title>
         <style>
             body {
                 overflow: hidden;
                 margin: 0px;
             }
 
-            #debug1 {
-                font-family: monospace;
-                font-size: larger;
+            #progressBar {
+                width: 500px;
+                height: 24px;
                 position: absolute;
-                left: 0px;
-                top: 50px;
-                border: 1px solid red;
-                width: 180px;
-                height: 310px;
-                color: white;
-                pointer-events: none;
+                left: 50%;
+                top: 10px;
+                margin-left: -250px;
             }
         </style>
+        <!-- Import maps polyfill -->
+        <!-- Remove this when import maps will be widely supported -->
+        <script async src="./utils/es-module-shims.js"></script>
     </head>
 
     <body>
-        <div id="debug1"></div>
+        <a href="/view_source/loader-mtl.html" id="vwSrcLink" target="_blank">&lt;&gt;</a>
+        <progress value="0" max="100" id="progressBar"></progress>
         <script type="module" src="bundle.js"></script>
     </body>
 </html>
