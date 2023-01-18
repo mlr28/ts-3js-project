@@ -25,3 +25,11 @@ We can install the Dat.GUI from its official repository.
 We should also install the type definitions.
 
 ``npm install @types/dat.gui --save-dev``
+
+
+
+Run using 
+
+``npm install --save-dev``
+
+``npm run dev``
