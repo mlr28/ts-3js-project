@@ -42,14 +42,14 @@ const material = new THREE.MeshPhysicalMaterial({
     roughness: 0.0,
     opacity: 1.0,
     transparent: false,
-    transmission: 0.10,
+    transmission: 0.00,
     clearcoat: 0.0,
     clearcoatRoughness: 0.0
 })
 
 const loader = new STLLoader()
 loader.load(
-    'models/New Scan_20221121/Test Case Straumann_20221121 LowerJawScan.stl',
+    'models/New Scan_20221201/Tektonic scan test_20221201 UpperAbutmentScan.stl',
     function (geometry) {
         const mesh = new THREE.Mesh(geometry, material)
         scene.add(mesh)
